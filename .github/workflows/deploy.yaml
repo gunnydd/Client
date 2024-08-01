@@ -17,28 +17,24 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    
+
     - name: Copy files via SCP
       run: |
         # 파이썬 스크립트를 라즈베리 파이로 복사
         scp -o StrictHostKeyChecking=no -r ./* pi1@192.168.12.151:/home/pi1/Desktop
 
-    - name: Create virtual environment and install PyInstaller on Raspberry Pi
+    - name: Create virtual environment
       run: |
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 << 'EOF'
-          python3 -m venv /home/pi1/venv
-          source /home/pi1/venv/bin/activate
-          pip install pyinstaller
-        EOF
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'python3 -m venv /home/pi1/venv'
+
+    - name: Install PyInstaller in virtual environment
+      run: |
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'source /home/pi1/venv/bin/activate && pip install pyinstaller'
 
     - name: Build executable on Raspberry Pi
       run: |
         # 가상 환경을 활성화하고 파이썬 스크립트를 실행 파일로 빌드
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 << 'EOF'
-          source /home/pi1/venv/bin/activate
-          cd /home/pi1/Desktop
-          pyinstaller --onefile rasp.py
-        EOF
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'source /home/pi1/venv/bin/activate && cd /home/pi1/Desktop && pyinstaller --onefile rasp.py'
 
     - name: Kill process on port 5001
       run: |
@@ -47,7 +43,7 @@ jobs:
 
     - name: Execute script on Raspberry Pi
       run: |
-        # 빌드된 실행 파일 실행 ㅎ
+        # 빌드된 실행 파일 실행
         ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop/dist && ./rasp'
     
     - name: Mark deployment as done
