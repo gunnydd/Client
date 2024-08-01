@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+    
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -21,6 +21,10 @@ jobs:
     - name: Copy files via SCP
       run: |
         scp -o StrictHostKeyChecking=no -r ./* pi1@192.168.12.151:/home/pi1/Desktop
+
+    - name: Kill process on port 5001
+      run: |
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'fuser -k 5001/tcp || true'
 
     - name: Execute script on Raspberry Pi
       run: |
