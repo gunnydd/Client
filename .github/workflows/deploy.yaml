@@ -23,15 +23,22 @@ jobs:
         # 파이썬 스크립트를 라즈베리 파이로 복사
         scp -o StrictHostKeyChecking=no -r ./* pi1@192.168.12.151:/home/pi1/Desktop
 
-    - name: Install PyInstaller on Raspberry Pi
+    - name: Create virtual environment and install PyInstaller on Raspberry Pi
       run: |
-        # 라즈베리 파이에서 PyInstaller 설치
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'pip3 install pyinstaller'
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 << 'EOF'
+          python3 -m venv /home/pi1/venv
+          source /home/pi1/venv/bin/activate
+          pip install pyinstaller
+        EOF
 
     - name: Build executable on Raspberry Pi
       run: |
-        # 파이썬 스크립트를 실행 파일로 빌드
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'cd /home/pi1/Desktop && pyinstaller --onefile rasp.py'
+        # 가상 환경을 활성화하고 파이썬 스크립트를 실행 파일로 빌드
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 << 'EOF'
+          source /home/pi1/venv/bin/activate
+          cd /home/pi1/Desktop
+          pyinstaller --onefile rasp.py
+        EOF
 
     - name: Kill process on port 5001
       run: |
