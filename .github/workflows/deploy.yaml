@@ -7,21 +7,21 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2  # 최신 버전으로 업데이트 가능
+      uses: actions/checkout@v2
 
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3  # 최신 버전으로 업데이트 가능
+      uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy files via SCP
       run: |
-        scp -r ./* pi1@192.168.12.151:/home/pi1/Desktop
+        scp -o StrictHostKeyChecking=no -r ./* pi1@192.168.12.151:/home/pi1/Desktop
 
     - name: Execute script on Raspberry Pi
       run: |
-        ssh pi1@192.168.12.151 'cd /home/pi1/Desktop && python3 rasp.py'
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'cd /home/pi1/Desktop && python3 rasp.py'
