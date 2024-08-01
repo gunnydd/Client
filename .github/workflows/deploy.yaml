@@ -17,18 +17,31 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+    
     - name: Copy files via SCP
       run: |
+        # 파이썬 스크립트를 라즈베리 파이로 복사
         scp -o StrictHostKeyChecking=no -r ./* pi1@192.168.12.151:/home/pi1/Desktop
+
+    - name: Install PyInstaller on Raspberry Pi
+      run: |
+        # 라즈베리 파이에서 PyInstaller 설치
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'pip3 install pyinstaller'
+
+    - name: Build executable on Raspberry Pi
+      run: |
+        # 파이썬 스크립트를 실행 파일로 빌드
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'cd /home/pi1/Desktop && pyinstaller --onefile rasp.py'
 
     - name: Kill process on port 5001
       run: |
+        # 포트 5001에서 실행 중인 프로세스 종료
         ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'fuser -k 5001/tcp || true'
 
     - name: Execute script on Raspberry Pi
       run: |
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop && python3 rasp.py'
+        # 빌드된 실행 파일 실행
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop/dist && ./rasp'
     
     - name: Mark deployment as done
       run: echo "Deployment Complete"
