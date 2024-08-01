@@ -28,7 +28,7 @@ jobs:
 
     - name: Execute script on Raspberry Pi
       run: |
-        nohup ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop && python3 rasp.py' > /dev/null 2>&1 &
+        nohup ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop && python3 rasp.py' &
     
     - name: Mark deployment as done
       run: echo "Deployment Complete"
