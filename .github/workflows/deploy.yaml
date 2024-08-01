@@ -1,4 +1,4 @@
-name: Deploy to Raspberry Pi
+name: Deploy to Self-Hosted Runner
 
 on:
   push:
@@ -24,4 +24,4 @@ jobs:
 
     - name: Execute script on Raspberry Pi
       run: |
-        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'cd /home/pi1/Desktop && python3 rasp.py'
+        ssh -o StrictHostKeyChecking=no pi1@192.168.12.151 'export DISPLAY=:0 && cd /home/pi1/Desktop && python3 rasp.py'
