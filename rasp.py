@@ -218,4 +218,6 @@ if __name__ == "__main__":
   # plz ! 
   # FKUNHEE HWANG
   # This is actually fun ! 
+  # Fuck you Thunder ! 
+  
   app.run(debug=True, host='0.0.0.0', port=5001)
