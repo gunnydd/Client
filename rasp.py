@@ -212,5 +212,5 @@ if __name__ == "__main__":
   ## 이 전쟁을 끝내러 왔따.. 
   ## come on ! 
   ## ㅗ ㅗㅗㅗ
-  ## 응 이제 진짜 돼 ㅋㅋ  zzzzzzz z z z z z z
+  ## 응 이제 진짜 돼 ㅋㅋ  zzzzzzz z z z z z zㅗㅗㅗ
   app.run(debug=True, host='0.0.0.0', port=5001)
