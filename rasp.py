@@ -207,4 +207,5 @@ def shutdown():
 
 if __name__ == "__main__":
   ### 제발좀 되라 씨...앙....
+  ### 응 짜증나게하지마 ! 
   app.run(debug=True, host='0.0.0.0', port=5001)
