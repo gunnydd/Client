@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2  # 최신 버전으로 업데이트 가능
 
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
+      uses: webfactory/ssh-agent@v0.5.3  # 최신 버전으로 업데이트 가능
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
