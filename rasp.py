@@ -4,6 +4,8 @@ import time
 from flask import Flask, request, jsonify, render_template_string
 import subprocess
 
+os.environ['DISPLAY'] = ':0'
+
 app = Flask(__name__)
 UPLOAD_FOLDER = '/home/pi2/Desktop/pptx_files'
 if not os.path.exists(UPLOAD_FOLDER):
