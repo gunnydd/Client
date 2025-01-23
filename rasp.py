@@ -206,7 +206,7 @@ def emergency():
         </head>
         <body>
             <div class="top-section">
-                <img src="https://static.vecteezy.com/system/resources/previews/016/314/775/non_2x/transparent-warning-free-png.png" alt="Warning Icon" class="icon">
+                <img src="/home/pi4/warning.png" alt="Warning Icon" class="icon">
                 <div class="emergency">EMERGENCY</div>
             </div>
             <div class="bottom-section">
@@ -225,7 +225,8 @@ def emergency():
         # Convert HTML file to an image
         image_file_path = os.path.join(UPLOAD_FOLDER, 'emergency.png')
         subprocess.run([
-            'wkhtmltoimage', 
+            'wkhtmltoimage',
+            '--enable-local-file-access',
             '--width', '1920',  # Set to desired resolution
             '--height', '1080', # Set to desired resolution
             html_file_path, 
